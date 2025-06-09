@@ -15,3 +15,19 @@ root_dir = "/content/drive/MyDrive/images"  # <-- Update if your path is differe
 img_size = (224, 224)
 batch_size = 32
 epochs = 10
+
+image_paths = []
+labels = []
+
+for class_folder in os.listdir(root_dir):
+    class_path = os.path.join(root_dir, class_folder)
+    if os.path.isdir(class_path):
+        for fname in os.listdir(class_path):
+            if fname.lower().endswith(('.jpg', '.jpeg', '.png')):
+                image_paths.append(os.path.join(class_folder, fname))  # relative path
+                labels.append(class_folder)
+
+df = pd.DataFrame({
+    'filename': image_paths,
+    'class': labels
+})
