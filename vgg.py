@@ -80,3 +80,19 @@ test_data = val_gen.flow_from_dataframe(
     batch_size=batch_size,
     shuffle=False
 )
+
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+base_model.trainable = False
+
+x = GlobalAveragePooling2D()(base_model.output)
+x = Dense(256, activation='relu')(x)
+output = Dense(len(train_data.class_indices), activation='softmax')(x)
+
+
+model = Model(inputs=base_model.input, outputs=output)
+
+model.compile(
+    optimizer=Adam(learning_rate=0.0001),
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
