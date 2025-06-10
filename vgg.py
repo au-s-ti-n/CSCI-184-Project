@@ -11,7 +11,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
-root_dir = "/content/drive/MyDrive/images"  # <-- Update if your path is different
+root_dir = "/content/drive/MyDrive/images"  
 img_size = (224, 224)
 batch_size = 32
 epochs = 10
