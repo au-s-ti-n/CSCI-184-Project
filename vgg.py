@@ -35,3 +35,48 @@ df = pd.DataFrame({
 counts = df['class'].value_counts()
 valid_classes = counts[counts >= 2].index.tolist()
 df = df[df['class'].isin(valid_classes)].reset_index(drop=True)
+
+train_df, test_df = train_test_split(df, test_size=0.2, stratify=df['class'], random_state=42)
+train_df, val_df = train_test_split(train_df, test_size=0.25, stratify=train_df['class'], random_state=42)
+
+train_gen = ImageDataGenerator(
+    preprocessing_function=preprocess_input,
+    horizontal_flip=True,
+    rotation_range=10,
+    zoom_range=0.1
+)
+
+val_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+train_data = train_gen.flow_from_dataframe(
+    train_df,
+    directory=root_dir,
+    x_col='filename',
+    y_col='class',
+    target_size=img_size,
+    class_mode='categorical',
+    batch_size=batch_size,
+    shuffle=True
+)
+
+val_data = val_gen.flow_from_dataframe(
+    val_df,
+    directory=root_dir,
+    x_col='filename',
+    y_col='class',
+    target_size=img_size,
+    class_mode='categorical',
+    batch_size=batch_size,
+    shuffle=False
+)
+
+test_data = val_gen.flow_from_dataframe(
+    test_df,
+    directory=root_dir,
+    x_col='filename',
+    y_col='class',
+    target_size=img_size,
+    class_mode='categorical',
+    batch_size=batch_size,
+    shuffle=False
+)
