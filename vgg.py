@@ -24,7 +24,7 @@ for class_folder in os.listdir(root_dir):
     if os.path.isdir(class_path):
         for fname in os.listdir(class_path):
             if fname.lower().endswith(('.jpg', '.jpeg', '.png')):
-                image_paths.append(os.path.join(class_folder, fname))  # relative path
+                image_paths.append(os.path.join(class_folder, fname))  
                 labels.append(class_folder)
 
 df = pd.DataFrame({
