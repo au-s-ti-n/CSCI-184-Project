@@ -31,3 +31,7 @@ df = pd.DataFrame({
     'filename': image_paths,
     'class': labels
 })
+
+counts = df['class'].value_counts()
+valid_classes = counts[counts >= 2].index.tolist()
+df = df[df['class'].isin(valid_classes)].reset_index(drop=True)
