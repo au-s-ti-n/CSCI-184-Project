@@ -96,3 +96,13 @@ model.compile(
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
+
+model.fit(
+    train_data,
+    validation_data=val_data,
+    epochs=epochs
+)
+
+loss, acc = model.evaluate(test_data)
+print(f"\nTest Accuracy: {acc:.2f}")
+
